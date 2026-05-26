@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "nemotron-speech-skills",
+  "owner": {
+    "name": "Nemotron Speech Team"
+  },
+  "metadata": {
+    "description": "NVIDIA Riva Speech NIM skills for Claude Code — covers ASR, TTS, NMT deployment, model selection, pipeline configuration, and system operations.",
+    "license": "Apache-2.0"
+  },
+  "plugins": [
+    {
+      "name": "nemotron-speech",
+      "source": ".",
+      "description": "NVIDIA Riva Speech NIM deployment skills: ASR, TTS, NMT, model selection, pipeline config, and ops.",
+      "keywords": ["nvidia", "riva", "nim", "asr", "tts", "nmt", "speech", "speech-to-text", "text-to-speech", "translation"]
+    }
+  ]
+}

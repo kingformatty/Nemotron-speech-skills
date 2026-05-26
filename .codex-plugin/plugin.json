@@ -1,0 +1,40 @@
+{
+  "name": "nemotron-speech",
+  "version": "1.0.0",
+  "description": "NVIDIA Riva Speech NIM deployment skills: ASR, TTS, NMT, model selection, pipeline configuration, and system operations.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Nemotron Speech Team"
+  },
+  "homepage": "https://docs.nvidia.com/nim/speech/latest/",
+  "repository": "https://github.com/nvidia-riva/Nemotron-speech-skills.git",
+  "keywords": [
+    "nvidia",
+    "riva",
+    "nim",
+    "speech",
+    "asr",
+    "tts",
+    "nmt"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "NVIDIA Riva",
+    "shortDescription": "Deploy and operate NVIDIA Riva Speech NIMs.",
+    "longDescription": "Skills for selecting, deploying, customizing, and troubleshooting NVIDIA Riva Speech NIMs across ASR, TTS, NMT, custom ASR models, advanced ASR pipelines, and system operations.",
+    "developerName": "Nemotron Speech Team",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://docs.nvidia.com/nim/speech/latest/",
+    "defaultPrompt": [
+      "Help me choose a Riva Speech NIM.",
+      "Walk me through Riva ASR deployment.",
+      "Check my system for Riva compatibility."
+    ],
+    "brandColor": "#76B900"
+  }
+}

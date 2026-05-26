@@ -1,0 +1,20 @@
+{
+  "name": "nemotron-speech-skills",
+  "interface": {
+    "displayName": "Nemotron Speech Skills"
+  },
+  "plugins": [
+    {
+      "name": "nemotron-speech",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

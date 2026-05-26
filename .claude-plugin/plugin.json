@@ -1,0 +1,9 @@
+{
+  "name": "nemotron-speech",
+  "description": "NVIDIA Riva Speech NIM deployment skills: ASR, TTS, NMT, model selection, pipeline configuration, and system operations.",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "author": {
+    "name": "Nemotron Speech Team"
+  }
+}
