@@ -389,8 +389,3 @@ Do not answer feature/voice questions from this skill's text alone.
 - gRPC responses are limited to 4 MB — long synthesis requests must use streaming or be chunked
 - HTTP streaming returns raw LPCM (not WAV) — requires client-side wrapping
 - Voice names are case-sensitive
-
-## Next Steps
-
-- Pick a different TTS model: see [`model-selection.md`](model-selection.md)
-- Check system requirements: see [`deployment-readiness-checks.md`](deployment-readiness-checks.md)

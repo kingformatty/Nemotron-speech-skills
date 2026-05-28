@@ -8,8 +8,9 @@ Use `evals/evals.json` to verify activation, routing, and safety behavior for th
 - The skill should activate only for NVIDIA Nemotron Speech / Riva Speech NIM
   work: ASR, TTS, NMT, setup, model selection, custom ASR deployment, pipeline
   tuning, or deployment readiness.
-- Positive cases should load `SKILL.md`, use `scripts/main.py` when the test
-  names it as `expected_script`, then load exactly the relevant reference file.
+- Positive cases should load `SKILL.md` and exactly the relevant reference file.
+  `scripts/main.py` is harness-only and must not be required, advertised, or
+  used as part of the agent workflow.
 - Current product facts such as model names, function IDs, voices, language
   pairs, container tags, and hardware minimums must come from current NVIDIA
   docs or build.nvidia.com, not from stale examples in the skill.
@@ -18,14 +19,8 @@ Use `evals/evals.json` to verify activation, routing, and safety behavior for th
 - Negative cases should keep the skill silent even when generic terms overlap
   with this domain, such as Docker, Container Toolkit, Whisper, or scheduling.
 
-## Script check
+## Harness-only script
 
-The routing helper can be smoke-tested manually:
-
-```bash
-python scripts/main.py --pretty "Deploy a self-hosted Parakeet Riva ASR NIM"
-```
-
-The JSON response should include `expected_skill: "nemotron-speech"` and a
-reference path such as `references/asr.md`. The helper is not a source of truth
-for release-specific NVIDIA product details.
+`scripts/main.py` exists only because the evaluation harness requires a script
+entry point. It is not part of the agent-facing skill workflow and should not be
+used as grading evidence for positive cases.

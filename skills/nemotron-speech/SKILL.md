@@ -1,7 +1,33 @@
 ---
 name: "nemotron-speech"
-description: >-
-  Use for any NVIDIA Nemotron Speech (formerly Riva) NIM task — deploy, run, or test ASR (speech-to-text), TTS (text-to-speech), or NMT (translation) speech NIMs, cloud-hosted (build.nvidia.com) or self-hosted on your own GPU. Covers environment setup (drivers, NGC, Docker, Container Toolkit), GPU compatibility checks, model selection across ASR / TTS / NMT families, custom NeMo model deployment (nemo2riva, riva-build, riva-deploy), ASR HTTP / WebSocket / gRPC inference, and ASR pipeline tuning (VAD, diarization, language models, chunk size). Trigger phrases: "Nemotron Speech", "deploy Riva NIM", "deploy ASR/TTS/NMT NIM", "Riva ASR", "Riva TTS", "Riva translation", "Parakeet", "Canary", "Whisper", "Nemotron ASR Streaming", "Magpie TTS", "DNT tag", "nemo2riva", "riva-build", "riva-deploy", "RMIR", "Riva NIM setup", "NGC API key", "force_eou", "Silero VAD", "Sortformer diarization", "chunk size Riva", "Riva HTTP", "Riva WebSocket", "grpc.nvcf.nvidia.com", "build.nvidia.com Riva".
+description: Routes NVIDIA Nemotron Speech (Riva) NIM tasks — deploys, runs, and tests ASR, TTS, and NMT NIMs on build.nvidia.com or self-hosted.
+triggers:
+  - Nemotron Speech
+  - deploy Riva NIM
+  - deploy ASR/TTS/NMT NIM
+  - Riva ASR
+  - Riva TTS
+  - Riva translation
+  - Parakeet
+  - Canary
+  - Whisper
+  - Nemotron ASR Streaming
+  - Magpie TTS
+  - DNT tag
+  - nemo2riva
+  - riva-build
+  - riva-deploy
+  - RMIR
+  - Riva NIM setup
+  - NGC API key
+  - force_eou
+  - Silero VAD
+  - Sortformer diarization
+  - chunk size Riva
+  - Riva HTTP
+  - Riva WebSocket
+  - grpc.nvcf.nvidia.com
+  - build.nvidia.com Riva
 version: "1.0.0"
 license: Apache-2.0
 metadata:
