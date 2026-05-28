@@ -39,7 +39,7 @@ Choose `--config-name=streaming` or `--config-name=offline` depending on your in
 
 For full `riva-build` syntax and all parameters, fetch the pipeline configuration page cited in the routing table.
 
-### Decoder Choice (general guidance — verify per model)
+## Decoder Choice (general guidance — verify per model)
 
 | Family | Typical decoder | Notes |
 |---|---|---|
@@ -48,7 +48,7 @@ For full `riva-build` syntax and all parameters, fetch the pipeline configuratio
 
 **Verify the decoder for a specific model on the customization page** — newer model families may add or change supported decoders. Run `riva-build --config-name=<streaming|offline> -h` to see currently accepted decoder values.
 
-### Chunk Size Reference
+## Chunk Size Reference
 
 `chunk_size` is a server-side pipeline/deployment setting for Riva ASR streaming models.
 It is not the same thing as client send chunking (`--chunk_duration_ms`,
@@ -65,7 +65,7 @@ NIM; the server may accumulate or split incoming client audio to match its own c
 
 These are **starting points** for tuning, not authoritative defaults. Run `riva-build -h` for the current model defaults; benchmark for your hardware.
 
-### Chunk Size Rationale
+## Chunk Size Rationale
 
 - **Throughput vs latency trade-off.** Increasing server-side `chunk_size` usually increases throughput by reducing iterations per second of audio, but it also increases processing latency slightly.
 - **Partial transcript periodicity.** Perceived latency increases because partial transcripts are generated once per server chunk. With `chunk_size=160ms`, partials can be emitted every 160ms; with larger chunks, users wait longer between partials.
@@ -78,7 +78,7 @@ These are **starting points** for tuning, not authoritative defaults. Run `riva-
 
 Language model integration is per-decoder; not all decoders support every LM format. Verify on the pipeline configuration page.
 
-### ARPA Format (CTC + Flashlight)
+**ARPA Format (CTC + Flashlight)**
 
 ```bash
 decoder=flashlight \
@@ -86,7 +86,7 @@ decoding_language_model_arpa=/riva_build_deploy/lm.arpa \
 decoding_vocab=/riva_build_deploy/vocab.txt
 ```
 
-### KenLM Binary Format (CTC + Flashlight)
+**KenLM Binary Format (CTC + Flashlight)**
 
 ```bash
 decoder=flashlight \
@@ -94,7 +94,7 @@ decoding_language_model_binary=/riva_build_deploy/lm.binary \
 decoding_vocab=/riva_build_deploy/vocab.txt
 ```
 
-### Flashlight Decoder Hyperparameters
+**Flashlight Decoder Hyperparameters**
 
 ```bash
 decoder=flashlight \
@@ -115,14 +115,14 @@ flashlight_decoder.word_insertion_score=0.0
 | `lm_weight` | Language model scoring weight |
 | `word_insertion_score` | Penalty/bonus per inserted word |
 
-### NeMo LM (RNNT / TDT)
+**NeMo LM (RNNT / TDT)**
 
 ```bash
 nemo_decoder.language_model_alpha=0.5 \
 nemo_decoder.language_model_file=/riva_build_deploy/lm.nemo
 ```
 
-### Lexicon-Free Decoding (CTC + Flashlight)
+**Lexicon-Free Decoding (CTC + Flashlight)**
 
 ```bash
 decoder=flashlight \
@@ -314,9 +314,3 @@ Do not answer decoder / VAD / diarizer support questions from this skill's text 
 - Lexicon-free decoding only works with CTC models.
 - Streaming `riva-build` config cannot be changed at inference time — most decoder / VAD / diarizer choices require a full rebuild. Many runtime parameters (VAD thresholds, endpointing, custom_configuration keys) can be tuned without rebuilding — verify on the customization page.
 - KenLM binary format requires pre-compilation; ARPA format can be used directly.
-
-## Next Steps
-
-- Deploy the resulting RMIR: see [`asr-custom.md`](asr-custom.md)
-- Run inference against the deployed pipeline: see [`asr.md`](asr.md)
-- Tune runtime parameters without rebuilding: fetch the customization page cited above
