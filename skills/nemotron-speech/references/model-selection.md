@@ -287,15 +287,6 @@ Then run each, reporting inline:
 
 Pure selection question, no orchestration: don't probe anything. Go straight to the ASR Family Taxonomy → CTC > TDT > RNNT ranking; fetch the customization page for current per-model badges; answer.
 
-## Next Steps
-
-After selecting a family and fetching the specific `CONTAINER_ID` / `NIM_TAGS_SELECTOR` from the support matrix:
-
-- ASR: see [`asr.md`](asr.md)
-- TTS: see [`tts.md`](tts.md)
-- NMT: see [`nmt.md`](nmt.md)
-- Hardware compatibility check: see [`deployment-readiness-checks.md`](deployment-readiness-checks.md)
-
 ## Troubleshooting
 
 - **"Which model should I use?"** — fetch the support matrix for the modality; this skill only narrows to a family.

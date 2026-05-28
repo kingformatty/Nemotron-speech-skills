@@ -181,9 +181,3 @@ Stable WSL2 conventions:
 - System checks apply to x86_64 Linux only — WSL2 has additional constraints (fetch prerequisites page).
 - VRAM requirements are model-specific — always consult the support matrix for the NIM being deployed.
 - Health check polling assumes default port 9000; adjust if a custom port is configured.
-
-## Next Steps
-
-- Pick a model: see [`model-selection.md`](model-selection.md)
-- Set up the Docker / NGC environment: see [`setup.md`](setup.md)
-- Deploy a model: see [`asr.md`](asr.md), [`tts.md`](tts.md), or [`nmt.md`](nmt.md)

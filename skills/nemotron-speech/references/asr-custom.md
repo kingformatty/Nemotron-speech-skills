@@ -81,11 +81,11 @@ export ARTIFACT_DIR=/path/to/artifacts         # directory containing your .riva
 
 mkdir -p $NIM_EXPORT_PATH && sudo chown 1000:1000 $NIM_EXPORT_PATH
 
-# Note: chown to UID 1000:1000 because the NIM container runs as nvs:1000 inside
-# and needs write access to the mounted directory. Don't use world-writable
-# modes — they let any local user replace exported model artifacts. Also
-# don't try `-u $(id -u):$(id -g)` on the docker run — /opt/nim/workspace
-# inside the container isn't writable to arbitrary UIDs.
+```
+
+See [setup.md → Cache directory ownership](setup.md#cache-directory-ownership) for the `chown 1000:1000` rationale.
+
+```bash
 
 # Launch interactive shell inside the NIM container
 docker run --gpus all -it --rm \
@@ -151,12 +151,9 @@ For pipeline configuration options (streaming vs offline, VAD, language model, e
 
 ## Phase 3 — Deploy Model Repository with `riva-deploy`
 
-Still inside the container (or re-enter it), run `riva-deploy` to build the Triton model repository:
+Still inside the container (or re-enter it), run `riva-deploy` to build the Triton model repository. Use `-f` so repeated builds replace stale generated files:
 
 ```bash
-riva-deploy /riva_build_deploy/custom_model.rmir /data/models
-
-# Force overwrite
 riva-deploy -f /riva_build_deploy/custom_model.rmir /data/models
 ```
 
@@ -274,9 +271,3 @@ Do not pick a base image from this skill's text alone — the catalog rotates pe
 - x86_64 architecture only — `riva-build` runs inside the NIM container
 - NVIDIA AI Enterprise license required for self-hosting
 - `.nemo` → RMIR conversion happens inside `riva-build` via the inline `nemo2riva` block; the set of supported NeMo architectures and the exact inline-config keys are version-locked per release — verify on the pipeline-configuration page (Notes sections) before converting
-
-## Next Steps
-
-- Configure pipeline details (VAD, diarization, language model, streaming): see [`pipelines.md`](pipelines.md)
-- Check system requirements: see [`deployment-readiness-checks.md`](deployment-readiness-checks.md)
-- Run inference and explore runtime features against the deployed NIM: see [`asr.md`](asr.md)

@@ -35,6 +35,10 @@ For minimum driver / OS / glibc / GPU compute capability — **fetch the prerequ
 
 Follow the 7 steps below in order. Steps 1–3 require root/sudo. Steps 4–7 run as a normal user. Complete all steps before attempting to pull or run any Riva NIM container.
 
+### Cache directory ownership
+
+When a Riva NIM command exports model artifacts to a mounted host directory, create the directory and run `sudo chown 1000:1000 <directory>` because the NIM container runs as nvs:1000 inside and needs write access to the mount. Avoid world-writable modes; they let any local user replace exported model artifacts. Avoid `-u $(id -u):$(id -g)` on the `docker run`; `/opt/nim/workspace` inside the container is not writable to arbitrary UIDs.
+
 ## Step 1 — Install NVIDIA Drivers
 
 Install drivers via package manager. Skip the CUDA toolkit — it is bundled inside the NIM container.
@@ -172,11 +176,3 @@ echo "$NGC_API_KEY" | docker login nvcr.io --username '$oauthtoken' --password-s
 - NVIDIA AI Enterprise license required for self-hosting Riva NIMs
 - Do not install the CUDA toolkit separately — it is bundled inside the NIM container
 - Group membership changes (`docker` group) require logout/login to take effect
-
-## Next Steps
-
-- Select a model: see [`model-selection.md`](model-selection.md)
-- Verify hardware compatibility before deployment: see [`deployment-readiness-checks.md`](deployment-readiness-checks.md)
-- Deploy ASR: see [`asr.md`](asr.md)
-- Deploy TTS: see [`tts.md`](tts.md)
-- Deploy NMT: see [`nmt.md`](nmt.md)

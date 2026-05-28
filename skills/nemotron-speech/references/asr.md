@@ -151,11 +151,11 @@ export NIM_EXPORT_PATH=~/nim_export
 mkdir -p $NIM_EXPORT_PATH && sudo chown 1000:1000 $NIM_EXPORT_PATH
 export NIM_TAGS_SELECTOR="name=<model-name>,mode=<str|offline>,model_type=rmir"
 
-# Note: chown to UID 1000:1000 because the NIM container runs as nvs:1000 inside
-# and needs write access to the mounted directory. Don't use world-writable
-# modes — they let any local user replace exported model artifacts. Also
-# don't try `-u $(id -u):$(id -g)` on the docker run — /opt/nim/workspace
-# inside the container isn't writable to arbitrary UIDs.
+```
+
+See [setup.md → Cache directory ownership](setup.md#cache-directory-ownership) for the `chown 1000:1000` rationale.
+
+```bash
 
 # Step 1: Export
 docker run -it --rm --name=$CONTAINER_ID \
@@ -514,9 +514,3 @@ Do not answer feature questions from this skill's text alone.
 - Self-hosted deployment requires an NVIDIA AI Enterprise license
 - Cloud-hosted inference requires an active `NVIDIA_API_KEY` and internet access
 - Audio must be mono WAV (16-bit PCM) or Opus; stereo and other encodings are not accepted on the wire
-
-## Next Steps
-
-- Customize ASR pipeline at build time (VAD, diarization, language model): see [`pipelines.md`](pipelines.md)
-- Deploy a custom-trained model: see [`asr-custom.md`](asr-custom.md)
-- Check system requirements: see [`deployment-readiness-checks.md`](deployment-readiness-checks.md)

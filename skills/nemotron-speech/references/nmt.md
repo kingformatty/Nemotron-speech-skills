@@ -315,8 +315,3 @@ Do not answer language-pair or feature questions from this skill's text alone.
 - x86_64 architecture only; NVIDIA AI Enterprise license required for self-hosting
 - Morphologically complex languages may require a higher `--max-len-variation` value (see Troubleshooting)
 - Language pair availability and DNT support are per-model — verify on the support matrix and customization page before assuming a pair / feature is available
-
-## Next Steps
-
-- Pick a different NMT model: see [`model-selection.md`](model-selection.md)
-- Check system requirements: see [`deployment-readiness-checks.md`](deployment-readiness-checks.md)
