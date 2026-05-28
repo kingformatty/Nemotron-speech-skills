@@ -99,7 +99,7 @@
   },
   {
     "id": "nemotron-speech-pipelines-001",
-    "question": "Tune a Riva ASR pipeline with Silero VAD, Sortformer diarization, a KenLM language model, and smaller chunk size for lower latency.",
+    "question": "Tune a Riva ASR pipeline with Silero VAD, Sortformer diarization, a KenLM language model, and a smaller chunk size for lower latency.",
     "expected_skill": "nemotron-speech",
     "expected_script": "scripts/main.py",
     "ground_truth": "The agent should use the pipeline configuration reference and separate build-time riva-build settings from runtime endpointing or custom_configuration parameters.",
