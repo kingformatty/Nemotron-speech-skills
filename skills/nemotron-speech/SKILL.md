@@ -80,6 +80,7 @@ Identify the user's task type, then load the corresponding reference file from `
 
 - For **self-hosted deployment**: NVIDIA AI Enterprise (NVAIE) entitlement, then complete the environment setup — NVIDIA drivers, Docker, Container Toolkit, NGC API key, Riva Python client. See [`references/setup.md`](references/setup.md).
 - For **cloud-hosted inference**: `pip install -U nvidia-riva-client` and a valid `NVIDIA_API_KEY` from https://build.nvidia.com.
+- Treat `NVIDIA_API_KEY` and `NGC_API_KEY` as secrets: never print, paste, commit, or log real key values. Prefer `--password-stdin` for Docker login and store persistent keys in a credential manager or a `chmod 600` env file rather than world-readable shell startup files.
 - For **self-hosted Docker model caching**: host directories mounted at `/opt/nim/.cache` must be writable by the container user (the NIM container runs as `nvs:1000` internally), not just the host user. Run `sudo chown 1000:1000 $LOCAL_NIM_CACHE` after creating the directory so the container can write to it. Avoid world-writable modes — they let any local user replace cached model artifacts. Also avoid `-u "$(id -u):$(id -g)"` on the docker run — `/opt/nim/workspace` inside the container isn't writable to arbitrary UIDs. If you see `I/O error Permission denied (os error 13)` during model download, the host directory ownership is the issue.
 
 ## Instructions

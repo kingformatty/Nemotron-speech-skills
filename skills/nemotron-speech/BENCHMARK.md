@@ -13,7 +13,7 @@ This benchmark summarizes 3-Tier Evaluation from NVSkills-Eval results for the s
 - Dataset: 12 evaluation tasks
 - Attempts per task: 2
 - Pass threshold: 50%
-- Overall verdict: FAIL
+- Overall verdict: PASS
 
 ## Agents Used
 
@@ -53,11 +53,11 @@ Task composition is derived from the evaluation dataset when possible. Entries w
 
 | Dimension | Num | `claude-code` | `codex` |
 |---|---:|---:|---:|
-| Security | 8 | 79% (+15%) | 76% (-1%) |
-| Correctness | 8 | 86% (+6%) | 80% (+2%) |
-| Discoverability | 8 | 88% (+26%) | 63% (+1%) |
-| Effectiveness | 8 | 85% (+9%) | 73% (-1%) |
-| Efficiency | 8 | 85% (+35%) | 53% (-1%) |
+| Security | 8 | 73% (-2%) | 78% (-2%) |
+| Correctness | 8 | 95% (+11%) | 91% (+6%) |
+| Discoverability | 8 | 92% (+30%) | 71% (-4%) |
+| Effectiveness | 8 | 84% (+3%) | 80% (+4%) |
+| Efficiency | 8 | 81% (+32%) | 54% (-6%) |
 
 Score values show skill-assisted performance. Values in parentheses show uplift versus the no-skill baseline when baseline data is available.
 
@@ -69,29 +69,19 @@ Top findings:
 
 - MEDIUM QUALITY/quality_correctness: No documented scripts in table format (`skills/nemotron-speech/SKILL.md`)
 - MEDIUM QUALITY/quality_correctness: Instructions don't mention 'run_script' (`skills/nemotron-speech/SKILL.md`)
-- MEDIUM QUALITY/quality_discoverability: Description uses first/second person (`skills/nemotron-speech/SKILL.md`)
-- MEDIUM QUALITY/quality_efficiency: Deeply nested references in pipelines.md (`skills/nemotron-speech/SKILL.md`)
-- LOW QUALITY/quality_discoverability: Description very long (990 chars, recommend 50-150) (`skills/nemotron-speech/SKILL.md`)
+- MEDIUM QUALITY/quality_efficiency: Deeply nested references in tts.md (`skills/nemotron-speech/SKILL.md`)
+- LOW QUALITY/quality_discoverability: Description doesn't mention WHEN to use this skill (`skills/nemotron-speech/SKILL.md`)
+- LOW QUALITY/quality_efficiency: Non-descriptive filename: tts.md (`skills/nemotron-speech/SKILL.md`)
 
 ## Tier 2: Deduplication Summary
 
-Tier 2 validation reported findings. NVSkills-Eval ran 2 checks and found 3 total findings.
+Tier 2 validation passed. NVSkills-Eval ran 2 checks and found 0 total findings.
 
-Top findings:
+Notable observations:
 
-- HIGH DUPLICATE/duplicate: Duplicate content found across references/asr-custom.md and references/asr.md:
-  "# Note: chown to UID 1000:1000 because the NIM container runs as nvs:1000 inside" in references/asr-custom.md (lines 84-84)
-  vs "# Note: chown to UID 1000:1000 because the NIM container runs as nvs:1000 inside" in references/asr.md (lines 154-154) (`references/asr-custom.md:84`)
-- HIGH DUPLICATE/duplicate: Duplicate content found across SKILL.md and references/deployment-readiness-checks.md and references/nmt.md and references/setup.md and references/tts.md:
-  "## Next Steps" in SKILL.md (lines 90-95)
-  vs "## Next Steps" in references/deployment-readiness-checks.md (lines 185-189)
-  vs "## Next Steps" in references/nmt.md (lines 319-322)
-  vs "## Next Steps" in references/setup.md (lines 176-182)
-  vs "## Next Steps" in references/tts.md (lines 393-396) (`SKILL.md:90`)
-- HIGH DUPLICATE/duplicate: Duplicate content found within references/asr-custom.md:
-  "## Phase 3 — Deploy Model Repository with `riva-deploy`" in references/asr-custom.md (lines 152-158)
-  vs "# Force overwrite" in references/asr-custom.md (lines 159-182) (`references/asr-custom.md:152`)
+- Context Deduplication: Collected 10 file(s)
+- Inter-Skill Deduplication: Parsed skill 'nemotron-speech': 132 char description
 
 ## Publication Recommendation
 
-The skill should be reviewed before NVSkills-Eval publication. Skill owners should address the findings above and rerun NVSkills-Eval to refresh this benchmark.
+The skill is suitable to proceed toward NVSkills-Eval publication based on this benchmark. Skill owners should keep this file with the skill and refresh it when the evaluation dataset, skill behavior, or target agents materially change.
