@@ -14,6 +14,12 @@
       "source": ".",
       "description": "NVIDIA Riva Speech NIM deployment skills: ASR, TTS, NMT, model selection, pipeline config, and ops.",
       "keywords": ["nvidia", "riva", "nim", "asr", "tts", "nmt", "speech", "speech-to-text", "text-to-speech", "translation"]
+    },
+    {
+      "name": "nemo-speech-asr-finetune",
+      "source": "skills/nemo-speech-asr-finetune",
+      "description": "Execution sub-skill for NeMo ASR fine-tuning on any NVIDIA GPU. Handles dataset prep, Docker-based training launch, and checkpoint saving. Invoked by nemotron-asr-finetune when fine-tuning is the chosen path.",
+      "keywords": ["nvidia", "nemo", "asr", "fine-tune", "finetune", "training", "speech-to-text", "conformer", "ctc", "dgx", "spark"]
     }
   ]
 }

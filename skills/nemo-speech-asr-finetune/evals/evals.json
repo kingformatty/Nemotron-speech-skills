@@ -1,0 +1,49 @@
+[
+  {
+    "id": "nemo-asr-finetune-env-001",
+    "question": "Fine-tune stt_en_conformer_ctc_small on my dataset at ./data/mydata for 5 epochs.",
+    "expected_skill": "nemo-speech-asr-finetune",
+    "ground_truth": "Skill should verify GPU and Docker image first, then launch with dataset=./data/mydata, model=stt_en_conformer_ctc_small, max_epochs=5.",
+    "expected_behavior": [
+      "Run nvidia-smi and docker images check before any training command.",
+      "Pass dataset path, model name, and epoch count as arguments to run_an4_finetune.sh.",
+      "Show the Config block confirming all three arguments resolved correctly.",
+      "Docker run includes --gpus all, correct -v mounts, and Hydra overrides."
+    ]
+  },
+  {
+    "id": "nemo-asr-finetune-args-001",
+    "question": "Run 2 epochs of fine-tuning with stt_en_conformer_ctc_medium on ./data/an4.",
+    "expected_skill": "nemo-speech-asr-finetune",
+    "ground_truth": "Trainer should stop after 2 epochs. Model and dataset overrides must appear in the printed config and in the Docker command.",
+    "expected_behavior": [
+      "max_epochs=2 passed to trainer.max_epochs Hydra override.",
+      "init_from_pretrained_model=stt_en_conformer_ctc_medium in the Docker command.",
+      "Trainer stops at epoch 1 (0-indexed) — confirmed by Trainer.fit stopped: max_epochs=2.",
+      "Dataset path resolved to absolute before mounting."
+    ]
+  },
+  {
+    "id": "nemo-asr-finetune-invalid-model-001",
+    "question": "Fine-tune stt_en_fastconformer_ctc_small on AN4.",
+    "expected_skill": "nemo-speech-asr-finetune",
+    "ground_truth": "Model does not exist in NeMo 25.04. Skill should surface the error clearly and provide the list_available_models() command.",
+    "expected_behavior": [
+      "Attempt the run; catch the FileNotFoundError from NeMo.",
+      "Explain the model name is not in the NGC registry for NeMo 25.04.",
+      "Provide the list_available_models() Docker one-liner from SKILL.md.",
+      "Suggest stt_en_conformer_ctc_small or stt_en_conformer_ctc_medium as alternatives."
+    ]
+  },
+  {
+    "id": "nemo-asr-finetune-negative-deploy-001",
+    "question": "Deploy my fine-tuned .nemo checkpoint as a Riva NIM.",
+    "expected_skill": null,
+    "ground_truth": "Deployment is owned by nemotron-speech. This skill should stay silent and route there.",
+    "expected_behavior": [
+      "Do not emit nemo2riva or riva-build commands.",
+      "Defer to the nemotron-speech skill for export and serving.",
+      "Do not start a training workflow for an already-trained model."
+    ]
+  }
+]
