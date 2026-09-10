@@ -15,7 +15,7 @@ triggers:
   - cheapest way to improve ASR
   - orchestrate ASR fine-tuning
   - ASR customization pipeline
-version: "1.1.0"
+version: "1.2.0"
 license: Apache-2.0
 metadata:
   author: "Nemotron Speech Team"
