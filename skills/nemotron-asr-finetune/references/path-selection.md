@@ -15,7 +15,7 @@ Ordering and per-model support follow the NVIDIA Speech NIM (Riva) ASR customiza
 | **Custom vocabulary / pronunciation** | OOV words, consistent mispronunciations | Vocab/lexicon file | Low, deploy-time | `riva-build` → `nemotron-speech` |
 | **N-gram LM — pilot (NeMo)** | Cheaply prove LM lift *offline* before deploying | Domain **text** + a `.nemo`/`.riva` | Low, no serving | `nemo-speech-asr-finetune` (build + `beam_batch` eval) |
 | **N-gram LM — deploy (Riva)** | Domain phrasing / word sequences at serving | Domain **text** | Moderate, decode-time | `nemotron-speech` (word-level KenLM + vocab → `riva-build` flashlight → serve) |
-| **Fine-tune** | Real acoustic gaps (accents, noise, channel) | 100+ h transcribed (10 h floor if mixed) + GPU | High | Research/Training (`nemo-speech-asr-finetune`) |
+| **Fine-tune** | Real acoustic gaps (accents, noise, channel) | 100+ h transcribed (10 h floor if mixed; **<10 h → don't fine-tune, use word boosting**) + GPU | High | Research/Training (`nemo-speech-asr-finetune`) |
 | **Train from scratch / cross-language** | A new language/dialect, no checkpoint | Thousands of h (16+ h for transfer) | Very high | Research/Training (last resort) |
 
 Rungs compose: a fine-tuned model still uses boosting and an LM at serving time.
@@ -33,8 +33,9 @@ realization up front from the goal (validate vs ship); do not hand a half-built 
 - **Wrong word sequences / phrasing**, with domain text available → **n-gram LM**. Decide the *realization* up front:
   **pilot (NeMo)** to prove lift offline for cheap, or **deploy (Riva)** to ship it — different, non-interchangeable LM
   formats (see Rung Notes).
-- **Model mis-hears audio** (accent, noise, channel) with a real acoustic gap and enough transcribed audio →
-  **fine-tune**.
+- **Model mis-hears audio** (accent, noise, channel) with a real acoustic gap and **≥10 h** of real transcribed
+  target-domain audio → **fine-tune**. Below that floor, do not recommend fine-tuning — see the guardrail in Rung
+  Notes below.
 - **New language/dialect, no suitable checkpoint** → train from scratch / cross-language transfer (rare).
 - **Formatting only** (punctuation, casing, numbers) → runtime automatic-punctuation / ITN flags, not accuracy work.
 
@@ -62,7 +63,15 @@ realization up front from the goal (validate vs ship); do not hand a half-built 
     RNNT (NGPU-LM) <https://github.com/nvidia-riva/tutorials/blob/main/asr-train-and-deploy-NGPU-LM-for-parakeet-rnnt.ipynb>.
 - **Fine-tune:** for genuine acoustic gaps. NIM guide: 100+ h recommended; ~10 h floor **only if mixed** with a
   larger dataset to avoid catastrophic forgetting. Lossless audio, ≥16 kHz, noise augmentation. Supported: Parakeet
-  CTC/RNNT/TDT and Nemotron ASR Streaming.
+  CTC/RNNT/TDT and Nemotron ASR Streaming. Verify/convert sample rate and, on request, audit transcript quality via
+  the pre-flight dataset quality check ([`workflow.md`](workflow.md) §4a) before training.
+- **Below the 10 h floor — do not recommend fine-tuning.** Under ~10 hours of real transcribed target-domain audio,
+  the risk is severe on two independent axes: **catastrophic forgetting** (general capability degrades) and
+  **overfitting** (the model memorizes the tiny training set rather than generalizing, even within the target
+  domain) — mixing with a larger dataset no longer offsets this the way it does at the 10 h floor. Recommend
+  **word boosting** instead (the rung above — runtime, no training, needs only a word list). Only revisit
+  fine-tuning once real transcribed target-domain audio actually reaches the ~10 h floor, or the user explicitly
+  accepts the risk after being told it.
 - **Train from scratch / cross-language:** 5,000+ h from scratch; ~16+ h with cross-language transfer. Prefer
   fine-tuning a multilingual checkpoint first.
 - **Tokenizer extension to a new language:** when the target language requires new tokens (new script, phonemes, or

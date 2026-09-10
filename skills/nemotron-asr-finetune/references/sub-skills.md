@@ -19,6 +19,20 @@ interim guidance, and continue.
   with the GPU `beam_batch` decoder (`eval_beamsearch_ngram_ctc.py`) to prove lift cheaply. This pilot LM is a
   **NeMo-only** artifact — to ship, hand the *corpus* (not the pilot `.bin`) to `nemotron-speech`, which rebuilds the
   Riva-format LM. See the n-gram Rung Note in [`path-selection.md`](path-selection.md).
+- **Setup — this sub-skill is not catalog-published.** Unlike the other sub-skills, `nemo-speech-asr-finetune` is a
+  *project-local* Claude Code skill living inside the NeMo/Speech repo itself (`.claude/skills/nemo-speech-asr-finetune/`),
+  not the `nvidia-skills` catalog — every command in it is a path relative to that repo's root, so it only works when
+  reachable from inside (or linked to) an actual checkout. Do not assume it is invocable just because it was named
+  here. Before handing off to it:
+  1. Try the standard installer first: `npx skills add NVIDIA-NeMo/Speech --skill nemo-speech-asr-finetune --agent
+     claude-code --global --yes`. Unverified whether the installer supports arbitrary repos beyond the `nvidia/skills`
+     catalog — test it before relying on it.
+  2. If that doesn't work, fall back to the bundled [`../scripts/link-nemo-subskill.sh`](../scripts/link-nemo-subskill.sh)
+     `<checkout_path>` — validates the source, refuses to clobber an existing real directory, and records the real
+     repo root so it can be found reliably afterward.
+  3. Either way, see [`workflow.md`](workflow.md) §4b for resolving the checkout in the first place, and for the
+     required step of changing the working context into that checkout before Stage 5 actually runs any of this
+     sub-skill's commands — linking it only makes it *discoverable*, not *runnable*.
 
 ## SDG / Data Designer
 
@@ -33,6 +47,9 @@ interim guidance, and continue.
   assembling `(audio, transcript)` manifests are not yet a dedicated skill. Interim: profile audio (sample rate, SNR,
   duration/tps distributions), harvest realistic in-domain noise, score vendor samples with the current model, align
   format, and keep synthetic sources separately weighted. Flag missing real target-domain data explicitly.
+- **Owns the pre-flight sample-rate audit/conversion** (see [`workflow.md`](workflow.md) §4a) as part of format
+  alignment: verify every file is 16 kHz and resample offline (`sox`/`ffmpeg`) any file that is not, before handing
+  the manifest to training.
 
 ## Evaluation
 
@@ -50,6 +67,10 @@ Evaluation has **two surfaces** — route to the one that matches the branch (se
   client). Use this for the deployed before/after — the served decoder can differ from the in-NeMo result.
 - **Note:** `nemo-evaluator-plugin` is a NeMo Platform eval CLI for served endpoints/LLM-style metrics, **not** ASR WER —
   do not route ASR accuracy evaluation there.
+- **Also reused pre-training:** the pre-flight transcript-quality audit ([`workflow.md`](workflow.md) §4a) uses this
+  same WER tooling — offline via `nemo-speech-asr-finetune` or served via `nemotron-speech` — but scores a stock
+  pretrained reference checkpoint against the *provided ground truth*, not a fine-tune checkpoint against a held-out
+  set. Same mechanism, different purpose: flagging bad labels before training, not measuring a trained model.
 
 ## Deployment / Optimization
 
